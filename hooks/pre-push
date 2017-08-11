@@ -1,13 +1,23 @@
 #!/bin/sh
 
-# This script will read your remotes and if you have a remote named pantheon
-# it will prompt you to see if you want to sync the pantheon remote
+#This script will read your remotes and if you have a remote named pantheon
+#it will prompt you to see if you want to sync the pantheon remote
 
+#gets the current remote that we are pushing to
 remote="$1"
-if [ $remote != "pantheon" ];then
-  current_branch=$(git rev-parse --abbrev-ref HEAD)
-  flag=`echo $(git remote) |awk '{print match($0, "pantheon")}'`;
 
+#if the remote is not already pantheon 
+#then lets see if there is a pantheon remote
+if [ $remote != "pantheon" ];then
+  
+  #save the current branch we are pushing from
+  current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+  #is there a pantheon branch in our remotes list
+  flag=`echo $(git remote) |awk '{print match($0, "pantheon")}'`;
+  
+  #if we found a pantheon remote then lets ask
+  #the user if they want to push to pantheon as well
   if [ $flag -gt 0 ];then
     echo "FOUND PANTHEON REMOTE"
 
@@ -21,4 +31,5 @@ if [ $remote != "pantheon" ];then
     exec <&-
 
   fi
+
 fi
